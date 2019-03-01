@@ -19,15 +19,17 @@
  * Text Domain:       wp-discogs
  * Domain Path:       /languages
  *
- * Todo:
- *
- * - Create settings for discogs API authorization
  *
  */
 
 namespace CHB_WP_Discogs;
 
 require_once ( dirname(__FILE__) . '/vendor/autoload.php' );
+
+use OAuth\OAuth1\Service\BitBucket;
+use OAuth\Common\Storage\Session;
+use OAuth\Common\Consumer\Credentials;
+use Discogs;
 
 // If this file is called directly, abort.
 defined( 'ABSPATH' ) || die( 'Direct Access Not Permitted.' );
@@ -41,7 +43,7 @@ defined( 'ABSPATH' ) || die( 'Direct Access Not Permitted.' );
  * @var  string $url      Plugin URL
  * @var  string $path     Plugin Path
  */
-class CHB_WP_Discogs {
+class CHB_WP_Discogs_Main {
 
 	/**
 	 * Current version
@@ -127,6 +129,8 @@ class CHB_WP_Discogs {
 
 		$this->plugin_classes();
 		$this->hooks();
+
+		add_action( 'init', array( $this, 'register_discogs_shortcodes' ), 0 );
 	}
 
 	/**
@@ -292,6 +296,64 @@ class CHB_WP_Discogs {
 		$url = $url ? $url : trailingslashit( plugin_dir_url( __FILE__ ) );
 		return $url . $path;
 	}
+
+
+	public function register_discogs_shortcodes() {
+		add_shortcode( 'discogs', array( $this, 'discogs_shortcode' ) );
+	}
+
+	public function discogs_shortcode( $atts, $content = "" ) {
+
+		$auth_settings  = $this->helpers->get_auth_settings();
+		$consumerKey    = $auth_settings['wp_discogs_app_consumer_key'];
+		$consumerSecret = $auth_settings['wp_discogs_app_consumer_secret'];
+		$consumerLogin  = $auth_settings['wp_discogs_username'];
+
+		$client = Discogs\ClientFactory::factory([
+			'defaults' => [
+				'headers' => ['User-Agent' => 'wp-discogs/1.0 +https://github.com/chrispian/wp-discogs'],
+				'query' => [
+					'key' => $consumerKey,
+					'secret' => $consumerSecret,
+				],
+			]
+		]);
+		$client->getHttpClient()->getEmitter()->attach(new Discogs\Subscriber\ThrottleSubscriber());
+
+		$items = $client->getCollectionItemsByFolder([
+			'username'  => $consumerLogin,
+			'folder_id' => 0,
+			'per_page'  => 999
+		]);
+
+		// Loop through results.
+
+		$html .= "<div>Total Items in my Collection: " .$items['pagination']['items']."<br /></div>";
+
+		foreach ($items['releases'] as $record) {
+			$html .= "<div style=\"font-size: 0.9em; padding: 6px; width: 250px; height: 270px; float: left; border: 1px solid #cccccc; background: #eeeeee; margin-right: 15px; margin-bottom: 10px; text-align: center;\">";
+
+			// $html .=  . "<br />";
+			$html .= "<img src=\"".$record['basic_information']['thumb']."\" alt=\"".$record['basic_information']['title']."\" width=\"150\" height=\"150\" border=\"0\"><br />";
+			$html .= "Title: " . $record['basic_information']['title'] . "<br />";
+
+			foreach ( $record['basic_information']['artists'] as $artist ) {
+				if ($artist['name']) {
+					$artist_name  = '';
+					$artist_name = str_replace(" (2)", "", $artist['name'] );
+					$html .= "Artists: " . $artist_name;
+				}
+			}
+
+			$html .= "</div>";
+
+		}
+
+
+		return $html;
+
+	}
+
 }
 
 /**
@@ -302,7 +364,7 @@ class CHB_WP_Discogs {
  * @return CHB_WP_Discogs Singleton instance of plugin class.
  */
 function chb_wp_discogs() {
-	return CHB_WP_Discogs::get_instance();
+	return CHB_WP_Discogs_Main::get_instance();
 }
 
 // Kick it off

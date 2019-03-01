@@ -26,6 +26,4 @@ class Core {
 		// Parent plugin.
 		$this->plugin = $plugin;
 	}
-
-
 }
