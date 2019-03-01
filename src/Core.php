@@ -10,16 +10,16 @@ class Core {
 	 * Parent plugin class
 	 *
 	 * @var class
-	 * @since  2.0.0
+	 * @since  1.0.0
 	 */
 	protected $plugin = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @since 2.0.0
+	 * @since 1.0.0
 	 *
-	 * @param  CHB_Auto_Update_Settings_Manager $plugin Main plugin class.
+	 * @param  CHB_WP_Discogs $plugin Main plugin class.
 	 * @return  void
 	 */
 	public function __construct( $plugin ) {

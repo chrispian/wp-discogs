@@ -41,7 +41,7 @@ defined( 'ABSPATH' ) || die( 'Direct Access Not Permitted.' );
  * @var  string $url      Plugin URL
  * @var  string $path     Plugin Path
  */
-class CHB_Auto_Update_Settings_Manager {
+class CHB_WP_Discogs {
 
 	/**
 	 * Current version
@@ -96,7 +96,7 @@ class CHB_Auto_Update_Settings_Manager {
 	/**
 	 * Singleton instance of plugin
 	 *
-	 * @var CHB_Auto_Update_Settings_Manager
+	 * @var CHB_WP_Discogs
 	 * @since  1.0.0
 	 */
 	protected static $single_instance = null;
@@ -105,7 +105,7 @@ class CHB_Auto_Update_Settings_Manager {
 	 * Creates or returns an instance of this class.
 	 *
 	 * @since  1.0.0
-	 * @return CHB_Auto_Update_Settings_Manager A single instance of this class.
+	 * @return CHB_WP_Discogs A single instance of this class.
 	 */
 	public static function get_instance() {
 		if ( null === self::$single_instance ) {
@@ -295,11 +295,11 @@ class CHB_Auto_Update_Settings_Manager {
 }
 
 /**
- * Grab the CHB_Auto_Update_Settings_Manager Object and return it.
- * Wrapper for CHB_Auto_Update_Settings_Manager::get_instance()
+ * Grab the CHB_WP_Discogs Object and return it.
+ * Wrapper for CHB_WP_Discogs::get_instance()
  *
  * @since  2.0.0
- * @return CHB_Auto_Update_Settings_Manager Singleton instance of plugin class.
+ * @return CHB_WP_Discogs Singleton instance of plugin class.
  */
 function chb_wp_discogs() {
 	return CHB_WP_Discogs::get_instance();

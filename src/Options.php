@@ -16,16 +16,16 @@ class Options {
 	 * Parent plugin class
 	 *
 	 * @var class
-	 * @since  2.0.0
+	 * @since  1.0.0
 	 */
 	protected $plugin = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @since 2.0.0
+	 * @since 1.0.0
 	 *
-	 * @param  CHB_Auto_Update_Settings_Manager $plugin Main plugin class.
+	 * @param  CHB_WP_Discogs $plugin Main plugin class.
 	 * @return  void
 	 */
 	public function __construct( $plugin ) {
@@ -37,7 +37,7 @@ class Options {
 	/**
 	 * Save Plugin Settings
 	 *
-	 * @since 2.0.0
+	 * @since 1.0.0
 	 *
 	 * @return  void
 	 */
@@ -79,25 +79,29 @@ class Options {
 
 			}
 
-
-
 		}
 	}
 
 	/**
-	 * Create Sub Munu under WordPress Settings Menu
+	 * Create Settings Menu Link
 	 *
-	 * @since 2.0.0
+	 * @since 1.0.0
 	 * @return void
 	 */
 	public function plugin_create_menu() {
-		add_menu_page( 'Discogs Settings', 'Discogs Settings', 'manage_options', __FILE__, [$this, 'plugin_settings_page'], 'dashicons-welcome-widgets-menus', 90 );
+		add_menu_page( 'Discog Settings', 'Discog Settings', 'manage_options', __FILE__, [$this, 'plugin_settings_page'], 'dashicons-welcome-widgets-menus', 90 );
 	}
 
+	/**
+	 * Create Menu UI for plugin settings
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
 	public function plugin_settings_page() {
 		?>
 
-		<h2>Discogs Settings</h2>
+		<h2>Discog Settings</h2>
 
 		<div class="wrap">
 			<div class="card">
@@ -108,13 +112,26 @@ class Options {
 					<input type='hidden' id='wp_discogs_update_nonce' name='wp_discogs_update_nonce' value='<?php echo $nonce; ?>' />
 					<input type='hidden' name='wp_discogs_action' value='update_settings' />
 
+					<p>
+						Enter your Discogs API information below. If you don't already have this information you can get it here: <a href="https://www.discogs.com/settings/developers" target="_blank">https://www.discogs.com/settings/developers</a>
+					</p>
 
-					<h3>Discogs API Settings</h3>
+					<table class="form-table">
+						<tbody>
+							<tr>
+								<th scope="row"><label for="wp_discogs_app_consumer_key">Discogs App Cunsumer Key:</label></th>
+								<td><input type="text" size="45" name="wp_discogs_app_consumer_key" value="<?php echo esc_attr( get_option( 'wp_discogs_app_consumer_key' ) ); ?>" /></td>
+							</tr>
+							<tr>
+								<th scope="row"><label for="wp_discogs_app_consumer_secret">Discogs App Cunsumer Secret:</label></th>
+								<td><input type="text" size="45" name="wp_discogs_app_consumer_secret" value="<?php echo esc_attr( get_option( 'wp_discogs_app_consumer_secret' ) ); ?>" /></td>
 
-					<input type="text" name="wp_discogs_app_consumer_key" value="<?php echo esc_attr( get_option( 'wp_discogs_app_consumer_key' ) ); ?> />
-					<input type="text" name="wp_discogs_app_consumer_secret" value="<?php echo esc_attr( get_option( 'wp_discogs_app_consumer_secret' ) ); ?> />
-					<input type="text" name="wp_discogs_username" value="<?php echo esc_attr( get_option( 'wp_discogs_username' ) ); ?> />
-
+							<tr>
+								<th scope="row"><label for="wp_discogs_username">Discogs Username:</label></th>
+								<td><input type="text" size="45" name="wp_discogs_username" value="<?php echo esc_attr( get_option( 'wp_discogs_username' ) ); ?>" /></td>
+							</tr>
+						</tbody>
+					</table>
 					<?php
 
 						submit_button();
