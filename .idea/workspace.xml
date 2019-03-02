@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="af5cde6b-9675-47b8-a6cf-63474ea7e118" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Core.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Core.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Helpers.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Helpers.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Options.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Options.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/vendor/ricbra/php-discogs-api/resources/service.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/ricbra/php-discogs-api/resources/service.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wp-discogs.php" beforeDir="false" afterPath="$PROJECT_DIR$/wp-discogs.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,8 +17,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/wp-discogs.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1342">
-              <caret line="342" column="51" selection-start-line="342" selection-start-column="51" selection-end-line="342" selection-end-column="51" />
+            <state relative-caret-position="7029">
+              <caret line="322" column="52" selection-start-line="322" selection-start-column="26" selection-end-line="322" selection-end-column="52" />
               <folding>
                 <element signature="e#6#731#0#PHP" expanded="true" />
                 <element signature="e#759#794#0#PHP" expanded="true" />
@@ -76,9 +73,10 @@
       <find>getRequestToken</find>
       <find>retrieveAccessToken</find>
       <find>$client</find>
-      <find>wporg_shortcodes_init</find>
       <find>register</find>
       <find>shortcode</find>
+      <find>sort_order</find>
+      <find>wporg_shortcodes_init</find>
     </findStrings>
     <replaceStrings>
       <replace>1.0.0</replace>
@@ -95,6 +93,7 @@
         <option value="$PROJECT_DIR$/src/Options.php" />
         <option value="$PROJECT_DIR$/src/Core.php" />
         <option value="$PROJECT_DIR$/wp-discogs.php" />
+        <option value="$PROJECT_DIR$/vendor/ricbra/php-discogs-api/resources/service.php" />
       </list>
     </option>
   </component>
@@ -120,46 +119,28 @@
             <path>
               <item name="wp-discogs" type="b2602c69:ProjectViewProjectNode" />
               <item name="wp-discogs" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wp-discogs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wp-discogs" type="462c0819:PsiDirectoryNode" />
               <item name="vendor" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wp-discogs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wp-discogs" type="462c0819:PsiDirectoryNode" />
-              <item name="vendor" type="462c0819:PsiDirectoryNode" />
-              <item name="guzzlehttp" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wp-discogs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wp-discogs" type="462c0819:PsiDirectoryNode" />
-              <item name="vendor" type="462c0819:PsiDirectoryNode" />
-              <item name="guzzlehttp" type="462c0819:PsiDirectoryNode" />
-              <item name="command" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wp-discogs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wp-discogs" type="462c0819:PsiDirectoryNode" />
-              <item name="vendor" type="462c0819:PsiDirectoryNode" />
-              <item name="guzzlehttp" type="462c0819:PsiDirectoryNode" />
-              <item name="oauth-subscriber" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="wp-discogs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wp-discogs" type="462c0819:PsiDirectoryNode" />
-              <item name="vendor" type="462c0819:PsiDirectoryNode" />
-              <item name="guzzlehttp" type="462c0819:PsiDirectoryNode" />
-              <item name="oauth-subscriber" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="wp-discogs" type="b2602c69:ProjectViewProjectNode" />
               <item name="wp-discogs" type="462c0819:PsiDirectoryNode" />
               <item name="vendor" type="462c0819:PsiDirectoryNode" />
               <item name="ricbra" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="wp-discogs" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wp-discogs" type="462c0819:PsiDirectoryNode" />
+              <item name="vendor" type="462c0819:PsiDirectoryNode" />
+              <item name="ricbra" type="462c0819:PsiDirectoryNode" />
+              <item name="php-discogs-api" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="wp-discogs" type="b2602c69:ProjectViewProjectNode" />
+              <item name="wp-discogs" type="462c0819:PsiDirectoryNode" />
+              <item name="vendor" type="462c0819:PsiDirectoryNode" />
+              <item name="ricbra" type="462c0819:PsiDirectoryNode" />
+              <item name="php-discogs-api" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -194,12 +175,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1551455545864</updated>
-      <workItem from="1551455547930" duration="18017000" />
+      <workItem from="1551455547930" duration="20932000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18017000" />
+    <option name="totallyTimeSpent" value="20932000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="3008" height="1622" extended-state="0" />
@@ -285,11 +266,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/ricbra/php-discogs-api/resources/service.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1581" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/vendor/lusitanian/oauth/src/OAuth/bootstrap.php">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -324,10 +300,21 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Options.php">
+    <entry file="file://$PROJECT_DIR$/vendor/ricbra/php-discogs-api/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor />
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/ricbra/php-discogs-api/resources/service.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="48" selection-start-line="48" selection-end-line="48" />
+        <state relative-caret-position="688">
+          <caret line="440" column="7" selection-start-line="440" selection-start-column="7" selection-end-line="440" selection-end-column="7" />
+          <folding>
+            <element signature="e#6#245#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -348,10 +335,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Options.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="48" selection-start-line="48" selection-end-line="48" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/wp-discogs.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1342">
-          <caret line="342" column="51" selection-start-line="342" selection-start-column="51" selection-end-line="342" selection-end-column="51" />
+        <state relative-caret-position="7029">
+          <caret line="322" column="52" selection-start-line="322" selection-start-column="26" selection-end-line="322" selection-end-column="52" />
           <folding>
             <element signature="e#6#731#0#PHP" expanded="true" />
             <element signature="e#759#794#0#PHP" expanded="true" />

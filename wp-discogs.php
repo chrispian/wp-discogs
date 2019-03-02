@@ -321,9 +321,11 @@ class CHB_WP_Discogs_Main {
 		$client->getHttpClient()->getEmitter()->attach(new Discogs\Subscriber\ThrottleSubscriber());
 
 		$items = $client->getCollectionItemsByFolder([
-			'username'  => $consumerLogin,
-			'folder_id' => 0,
-			'per_page'  => 999
+			'username'   => $consumerLogin,
+			'folder_id'  => 0,
+			'per_page'   => 999,
+			'sort'       => 'artist',
+			'sort_order' => 'asc'
 		]);
 
 		// Loop through results.

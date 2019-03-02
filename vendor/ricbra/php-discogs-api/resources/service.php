@@ -445,6 +445,16 @@ return [
                     'location' => 'uri',
                     'required' => true
                 ],
+				'sort' => [
+					'type' => 'string',
+					'location' => 'query',
+					'required' => false
+				],
+				'sort_order' => [
+					'type' => 'string',
+					'location' => 'query',
+					'required' => false
+				],
                 'per_page' => [
                     'type' => 'integer',
                     'location' => 'query',

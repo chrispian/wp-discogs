@@ -26,6 +26,7 @@ Currently: Just add [discogs] Where you want your collection to show up. Coming 
 - Add Widgets
 - Add Gutenberg Blocks
 - Add Advanced Custom Field support
+- Is there anyway to sort by artist, album name?
 
 ### Authors
 
