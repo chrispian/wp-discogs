@@ -258,21 +258,6 @@ class CHB_WP_Discogs_Main {
 	}
 
 	/**
-	 * Include a file from the includes directory
-	 *
-	 * @since  1.0.0
-	 * @param  string  $filename Name of the file to be included
-	 * @return bool    Result of include call.
-	 */
-	public static function include_file( $filename ) {
-		$file = self::dir( 'includes/'. $filename .'.php' );
-		if ( file_exists( $file ) ) {
-			return include_once( $file );
-		}
-		return false;
-	}
-
-	/**
 	 * This plugin's directory
 	 *
 	 * @since  1.0.0
