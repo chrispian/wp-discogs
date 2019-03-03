@@ -2,11 +2,6 @@
 
 namespace CHB_WP_Discogs;
 
-use OAuth\OAuth1\Service\BitBucket;
-use OAuth\Common\Storage\Session;
-use OAuth\Common\Consumer\Credentials;
-use Discogs;
-
 /**
  * Class to hold helper functions
  */

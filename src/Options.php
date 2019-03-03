@@ -2,15 +2,10 @@
 
 namespace CHB_WP_Discogs;
 
-// Call register settings function.
-add_action( 'admin_init', [CHB_WP_Discogs()->options, 'save_plugin_settings'] );
-
-// Create custom plugin settings menu.
-add_action( 'admin_menu', [CHB_WP_Discogs()->options, 'plugin_create_menu'] );
-
 /**
  * Class to for Options Settings
  */
+
 class Options {
 	/**
 	 * Parent plugin class
@@ -31,6 +26,12 @@ class Options {
 	public function __construct( $plugin ) {
 		// Parent plugin.
 		$this->plugin = $plugin;
+
+		// Call register settings function.
+		add_action( 'admin_init', [$this, 'save_plugin_settings'] );
+
+		// Create custom plugin settings menu.
+		add_action( 'admin_menu', [$this, 'plugin_create_menu'] );
 
 	}
 

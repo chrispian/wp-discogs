@@ -131,6 +131,7 @@ class CHB_WP_Discogs_Main {
 		$this->hooks();
 
 		add_action( 'init', array( $this, 'register_discogs_shortcodes' ), 0 );
+
 	}
 
 	/**
@@ -362,7 +363,7 @@ class CHB_WP_Discogs_Main {
  * Grab the CHB_WP_Discogs Object and return it.
  * Wrapper for CHB_WP_Discogs::get_instance()
  *
- * @since  2.0.0
+ * @since  1.0.0
  * @return CHB_WP_Discogs Singleton instance of plugin class.
  */
 function chb_wp_discogs() {

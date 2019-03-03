@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="af5cde6b-9675-47b8-a6cf-63474ea7e118" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vendor/ricbra/php-discogs-api/resources/service.php" beforeDir="false" afterPath="$PROJECT_DIR$/vendor/ricbra/php-discogs-api/resources/service.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Helpers.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Helpers.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Options.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Options.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wp-discogs.php" beforeDir="false" afterPath="$PROJECT_DIR$/wp-discogs.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,11 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/wp-discogs.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7029">
-              <caret line="322" column="52" selection-start-line="322" selection-start-column="26" selection-end-line="322" selection-end-column="52" />
+            <state relative-caret-position="684">
+              <caret line="132" column="79" selection-start-line="132" selection-start-column="79" selection-end-line="132" selection-end-column="79" />
               <folding>
                 <element signature="e#6#731#0#PHP" expanded="true" />
                 <element signature="e#759#794#0#PHP" expanded="true" />
@@ -40,20 +40,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Helpers.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="4" selection-start-line="4" selection-end-line="7" selection-end-column="12" />
-              <folding>
-                <element signature="e#34#69#0#PHP" expanded="true" />
-              </folding>
+            <state relative-caret-position="990">
+              <caret line="45" column="25" lean-forward="true" selection-start-line="45" selection-start-column="25" selection-end-line="45" selection-end-column="25" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Options.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="48" selection-start-line="48" selection-end-line="48" />
+            <state relative-caret-position="618">
+              <caret line="30" column="40" selection-start-line="30" selection-start-column="40" selection-end-line="30" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -77,6 +74,8 @@
       <find>shortcode</find>
       <find>sort_order</find>
       <find>wporg_shortcodes_init</find>
+      <find>__cons</find>
+      <find>__con</find>
     </findStrings>
     <replaceStrings>
       <replace>1.0.0</replace>
@@ -89,11 +88,11 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/composer.json" />
-        <option value="$PROJECT_DIR$/src/Helpers.php" />
-        <option value="$PROJECT_DIR$/src/Options.php" />
         <option value="$PROJECT_DIR$/src/Core.php" />
-        <option value="$PROJECT_DIR$/wp-discogs.php" />
         <option value="$PROJECT_DIR$/vendor/ricbra/php-discogs-api/resources/service.php" />
+        <option value="$PROJECT_DIR$/src/Helpers.php" />
+        <option value="$PROJECT_DIR$/wp-discogs.php" />
+        <option value="$PROJECT_DIR$/src/Options.php" />
       </list>
     </option>
   </component>
@@ -175,12 +174,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1551455545864</updated>
-      <workItem from="1551455547930" duration="20932000" />
+      <workItem from="1551455547930" duration="23247000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20932000" />
+    <option name="totallyTimeSpent" value="23247000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="3008" height="1622" extended-state="0" />
@@ -327,30 +326,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Helpers.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" selection-start-line="4" selection-end-line="7" selection-end-column="12" />
+        <state relative-caret-position="990">
+          <caret line="45" column="25" lean-forward="true" selection-start-line="45" selection-start-column="25" selection-end-line="45" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/wp-discogs.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="684">
+          <caret line="132" column="79" selection-start-line="132" selection-start-column="79" selection-end-line="132" selection-end-column="79" />
           <folding>
-            <element signature="e#34#69#0#PHP" expanded="true" />
+            <element signature="e#6#731#0#PHP" expanded="true" />
+            <element signature="e#759#794#0#PHP" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Options.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="48" selection-start-line="48" selection-end-line="48" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/wp-discogs.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7029">
-          <caret line="322" column="52" selection-start-line="322" selection-start-column="26" selection-end-line="322" selection-end-column="52" />
-          <folding>
-            <element signature="e#6#731#0#PHP" expanded="true" />
-            <element signature="e#759#794#0#PHP" expanded="true" />
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="618">
+          <caret line="30" column="40" selection-start-line="30" selection-start-column="40" selection-end-line="30" selection-end-column="40" />
         </state>
       </provider>
     </entry>
