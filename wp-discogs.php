@@ -51,7 +51,7 @@ class CHB_WP_Discogs_Main {
 	 * @var  string
 	 * @since  1.0.0
 	 */
-	const VERSION = '1.0.0';
+	const VERSION = '1.0.1';
 
 	/**
 	 * URL of plugin directory
@@ -131,6 +131,7 @@ class CHB_WP_Discogs_Main {
 		$this->hooks();
 
 		add_action( 'init', array( $this, 'register_discogs_shortcodes' ), 0 );
+		add_action( 'init', array( $this, 'setup_scripts_and_styles' ), 0 );
 
 	}
 
@@ -283,13 +284,47 @@ class CHB_WP_Discogs_Main {
 		return $url . $path;
 	}
 
-
+	/**
+	 * Register our shortcode.
+	 *
+	 * @since  1.0.0
+	 */
 	public function register_discogs_shortcodes() {
 		add_shortcode( 'discogs', array( $this, 'discogs_shortcode' ) );
 	}
 
-	public function discogs_shortcode( $atts, $content = "" ) {
+	/**
+	 * Encode styles / scripts as needed.
+	 *
+	 * @since 1.0.1
+	 *
+	 * @param  null
+	 * @return  void
+	 */
+	public function setup_scripts_and_styles() {
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_discogs_css' ), 50 );
+	}
 
+	/**
+	 * Enqueue the CSS
+	 *
+	 * @since 1.0.1
+	 *
+	 * @return void
+	 */
+	public function theme_customisations_css() {
+		wp_enqueue_style( 'discogs-css', plugins_url( '/css/style.css', __FILE__ ) );
+	}
+
+	/**
+	 * Our callback for the shortcode.
+	 * Will eventually support attributes etc.
+	 *
+	 * @since  1.0.0
+	 * @return string
+	 */
+	public function discogs_shortcode( $atts, $content = "" ) {
+		$cache_key      = 'getCollectionItemsByFolder';
 		$auth_settings  = $this->helpers->get_auth_settings();
 		$consumerKey    = $auth_settings['wp_discogs_app_consumer_key'];
 		$consumerSecret = $auth_settings['wp_discogs_app_consumer_secret'];
@@ -306,37 +341,47 @@ class CHB_WP_Discogs_Main {
 		]);
 		$client->getHttpClient()->getEmitter()->attach(new Discogs\Subscriber\ThrottleSubscriber());
 
-		$items = $client->getCollectionItemsByFolder([
-			'username'   => $consumerLogin,
-			'folder_id'  => 0,
-			'per_page'   => 999,
-			'sort'       => 'artist',
-			'sort_order' => 'asc'
-		]);
+		// Pull from cache if possible and not rebuilding cache.
+		if ( ! $items = get_transient( $cache_key ) ) {
+			$items = $client->getCollectionItemsByFolder([
+				'username'   => $consumerLogin,
+				'folder_id'  => 0,
+				'per_page'   => 999,
+				'sort'       => 'artist',
+				'sort_order' => 'asc'
+			]);
 
-		// Loop through results.
-
-		$html .= "<div>Total Items in my Collection: " .$items['pagination']['items']."<br /></div>";
-
-		foreach ($items['releases'] as $record) {
-			$html .= "<div style=\"font-size: 0.9em; padding: 6px; width: 250px; height: 270px; float: left; border: 1px solid #cccccc; background: #eeeeee; margin-right: 15px; margin-bottom: 10px; text-align: center;\">";
-
-			// $html .=  . "<br />";
-			$html .= "<img src=\"".$record['basic_information']['thumb']."\" alt=\"".$record['basic_information']['title']."\" width=\"150\" height=\"150\" border=\"0\"><br />";
-			$html .= "Title: " . $record['basic_information']['title'] . "<br />";
-
-			foreach ( $record['basic_information']['artists'] as $artist ) {
-				if ($artist['name']) {
-					$artist_name  = '';
-					$artist_name = str_replace(" (2)", "", $artist['name'] );
-					$html .= "Artists: " . $artist_name;
-				}
-			}
-
-			$html .= "</div>";
+			// Cache to reduce API calls.
+			set_transient( $cache_key, $items, DAY_IN_SECONDS );
 
 		}
 
+		// Set a default error message in case we don't have $items.
+		$html = "Sorry, something went wrong and we could not get a list of records. Please try again.";
+
+		// Loop through results if we have them.
+
+		if ( $items ) {
+			$html = "<div>Total Items in my Collection: " . $items['pagination']['items'] . "<br /></div>";
+
+			foreach ($items['releases'] as $record) {
+				$html .= "<div class='discogs_card'>";
+
+				// $html .=  . "<br />";
+				$html .= "<img src=\"" . $record['basic_information']['thumb'] . "\" alt=\"" . $record['basic_information']['title'] . "\" width=\"150\" height=\"150\" border=\"0\"><br />";
+				$html .= "Title: " . $record['basic_information']['title'] . "<br />";
+
+				foreach ($record['basic_information']['artists'] as $artist) {
+					if ($artist['name']) {
+						$artist_name = str_replace(" (2)", "", $artist['name']);
+						$html .= "Artists: " . $artist_name;
+					}
+				}
+
+				$html .= "</div>";
+
+			}
+		}
 
 		return $html;
 
