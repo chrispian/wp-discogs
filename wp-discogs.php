@@ -312,7 +312,7 @@ class CHB_WP_Discogs_Main {
 	 *
 	 * @return void
 	 */
-	public function theme_customisations_css() {
+	public function enqueue_discogs_css() {
 		wp_enqueue_style( 'discogs-css', plugins_url( '/css/style.css', __FILE__ ) );
 	}
 
