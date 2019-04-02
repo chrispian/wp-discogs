@@ -24,15 +24,13 @@
 
 namespace CHB_WP_Discogs;
 
-require_once ( dirname(__FILE__) . '/vendor/autoload.php' );
+require_once ('../../../../../wp-load.php' );
+require_once ('../../vendor/autoload.php' );
 
 use OAuth\OAuth1\Service\BitBucket;
 use OAuth\Common\Storage\Session;
 use OAuth\Common\Consumer\Credentials;
 use Discogs;
-
-// If this file is called directly, abort.
-defined( 'ABSPATH' ) || die( 'Direct Access Not Permitted.' );
 
 /**
  * Main initiation class
@@ -43,7 +41,7 @@ defined( 'ABSPATH' ) || die( 'Direct Access Not Permitted.' );
  * @var  string $url      Plugin URL
  * @var  string $path     Plugin Path
  */
-class CHB_WP_Discogs_Main {
+class CHB_WP_Discogs_RecordDetails {
 
 	/**
 	 * Current version
@@ -51,7 +49,15 @@ class CHB_WP_Discogs_Main {
 	 * @var  string
 	 * @since  1.0.0
 	 */
-	const VERSION = '1.0.1';
+	const VERSION = '1.0.0';
+
+	/**
+	 * Record to look up
+	 *
+	 * @var int
+	 * @since  1.0.0
+	 */
+	protected $record_id = '';
 
 	/**
 	 * URL of plugin directory
@@ -78,27 +84,15 @@ class CHB_WP_Discogs_Main {
 	protected $basename = '';
 
 	/**
-	 * Options instance.
-	 * @var string
-	 */
-	protected $options = '';
-
-	/**
 	 * Helpers instance.
 	 * @var string
 	 */
 	protected $helpers = '';
 
 	/**
-	 * Core instance.
-	 * @var string
-	 */
-	protected $core = '';
-
-	/**
 	 * Singleton instance of plugin
 	 *
-	 * @var CHB_WP_Discogs
+	 * @var CHB_WP_Discogs_RecordDetails
 	 * @since  1.0.0
 	 */
 	protected static $single_instance = null;
@@ -107,7 +101,7 @@ class CHB_WP_Discogs_Main {
 	 * Creates or returns an instance of this class.
 	 *
 	 * @since  1.0.0
-	 * @return CHB_WP_Discogs A single instance of this class.
+	 * @return CHB_WP_Discogs_RecordDetails A single instance of this class.
 	 */
 	public static function get_instance() {
 		if ( null === self::$single_instance ) {
@@ -130,9 +124,6 @@ class CHB_WP_Discogs_Main {
 		$this->plugin_classes();
 		$this->hooks();
 
-		add_action( 'init', array( $this, 'register_discogs_shortcodes' ), 0 );
-		add_action( 'init', array( $this, 'setup_scripts_and_styles' ), 0 );
-
 	}
 
 	/**
@@ -142,9 +133,7 @@ class CHB_WP_Discogs_Main {
 	 * @return  null
 	 */
 	public function plugin_classes() {
-		$this->options = new Options( $this ) ;
 		$this->helpers = new Helpers( $this );
-		$this->core    = new Core( $this );
 	}
 
 	/**
@@ -248,10 +237,9 @@ class CHB_WP_Discogs_Main {
 				return self::VERSION;
 			case 'basename':
 			case 'url':
+			case 'record_id':
 			case 'path':
-			case 'options':
 			case 'helpers':
-			case 'core':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid '. __CLASS__ .' property: ' . $field );
@@ -284,63 +272,25 @@ class CHB_WP_Discogs_Main {
 		return $url . $path;
 	}
 
-	/**
-	 * Register our shortcode.
-	 *
-	 * @since  1.0.0
-	 */
-	public function register_discogs_shortcodes() {
-		add_shortcode( 'discogs', array( $this, 'discogs_shortcode' ) );
-	}
+
 
 	/**
-	 * Encode styles / scripts as needed.
-	 *
-	 * @since 1.0.1
-	 *
-	 * @param  null
-	 * @return  void
-	 */
-	public function setup_scripts_and_styles() {
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_discogs_css' ), 50 );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_discogs_js' ), 10 );
-	}
-
-	/**
-	 * Enqueue the CSS
-	 *
-	 * @since 1.0.1
-	 *
-	 * @return void
-	 */
-	public function enqueue_discogs_css() {
-		wp_enqueue_style( 'discogs-css', plugins_url( '/css/style.css', __FILE__ ) );
-		wp_enqueue_style( 'fancybox-style','https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css' );
-	}
-
-	/**
-	 * Enqueue the Javascript
-	 *
-	 * @return void
-	 */
-	public function enqueue_discogs_js() {
-		wp_enqueue_script( 'discogs-js', plugins_url( '/js/wp-discogs.js', __FILE__ ), array( 'jquery' ) );
-		wp_enqueue_script ('fancybox-script', 'https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', array(), '3.5.7', true);
-	}
-
-	/**
-	 * Our callback for the shortcode.
+	 * Get the details for the current record
 	 * Will eventually support attributes etc.
 	 *
 	 * @since  1.0.0
 	 * @return string
 	 */
-	public function discogs_shortcode( $atts, $content = "" ) {
-		$cache_key      = 'getCollectionItemsByFolder';
+	public function getRecordDetails( $record_id = null ) {
+
+		if ( ! $record_id ) {
+			return;
+		}
+
+		$cache_key      = "getRecordDetails-" .$record_id;
 		$auth_settings  = $this->helpers->get_auth_settings();
 		$consumerKey    = $auth_settings['wp_discogs_app_consumer_key'];
 		$consumerSecret = $auth_settings['wp_discogs_app_consumer_secret'];
-		$consumerLogin  = $auth_settings['wp_discogs_username'];
 
 		$client = Discogs\ClientFactory::factory([
 			'defaults' => [
@@ -355,12 +305,9 @@ class CHB_WP_Discogs_Main {
 
 		// Pull from cache if possible and not rebuilding cache.
 		if ( ! $items = get_transient( $cache_key ) ) {
-			$items = $client->getCollectionItemsByFolder([
-				'username'   => $consumerLogin,
-				'folder_id'  => 0,
-				'per_page'   => 999,
-				'sort'       => 'artist',
-				'sort_order' => 'asc'
+
+			$record = $client->getRelease([
+				'id' => $record_id
 			]);
 
 			// Cache to reduce API calls.
@@ -368,29 +315,91 @@ class CHB_WP_Discogs_Main {
 
 		}
 
+
+		// videos (arr, arr (Duration, embed, title, desc, uri))
+		// images
+		// genres
+		// styles
+		// tracklist
+
 		// Set a default error message in case we don't have $items.
 		$html = "Sorry, something went wrong and we could not get a list of records. Please try again.";
 
 		// Loop through results if we have them.
-		if ( $items ) {
+		if ( $record ) {
 
-			$html = "<div>Total Items in my Collection: " . $items['pagination']['items'] . "<br /></div>";
+			$html = '';
 
-			foreach ($items['releases'] as $record) {
-				$record_id = $record['basic_information']['id'];
-				$html .= "<div class='discogs_card'><a data-fancybox data-options='{\"autosize\" : \"false\", \"maxWidth\" : \"800px\", \"width\" : \"80%\", \"maxHeight\" : \"100px\", \"height\" : \"80%\" }' data-type=\"ajax\" data-src=\"" . plugins_url( "/wp-discogs/src/views/record-details.php?record_id=$record_id", dirname(__FILE__) ) . "\" href=\"javascript:;\">" . PHP_EOL;
-				$html .= "<img src=\"" . $record['basic_information']['thumb'] . "\" alt=\"" . $record['basic_information']['title'] . "\" width=\"150\" height=\"150\" border=\"0\"><br />" . PHP_EOL;
-				$html .= "Title: " . $record['basic_information']['title'] . "<br />" . PHP_EOL;
+			$image = "<img style=\"float: left;\" src=\"" . $record['thumb'] . "\" alt=\"" . $record['title'] . "\" width=\"150\" height=\"150\" border=\"0\"><br />" . PHP_EOL;
 
-				foreach ($record['basic_information']['artists'] as $artist) {
-					if ($artist['name']) {
-						$artist_name = str_replace(" (2)", "", $artist['name']);
-						$html .= "Artists: " . $artist_name . PHP_EOL;
+			if ( $record['images'] ) {
+				$image = "<img style=\"float: left; padding-right: 15px; padding-bottom: 6px;\" src=\"" . $record['images'][0][uri] . "\" alt=\"" . $record['title'] . "\" width=\"350\" height=\"350\" border=\"0\"><br />" . PHP_EOL;
+			}
+
+
+			if ($record['genres']) {
+				foreach ( $record['genres'] as $genre ) {
+					$record_genres .= $genre;
+					if (end($record['genres']) != $genre) {
+						$record_genres .= ', ';
 					}
 				}
-				$html .= "</a></div>" . PHP_EOL;
-
 			}
+
+			if ($record['styles']) {
+				foreach ( $record['styles'] as $style ) {
+					$record_styles .= $style;
+					if (end($record['styles']) != $style) {
+						$record_styles .= ', ';
+					}
+				}
+			}
+
+			$genres_and_styles = $record_genres . $record_styles;
+			if ( $record_genres && $record_styles ) {
+				$genres_and_styles = $record_genres . ' / ' . $record_styles;
+			}
+
+			$html .= "<div class='discogs_card_modal'>" . PHP_EOL;
+			$html .= $image;
+			$html .= "Title: " . $record['title'] . "<br />" . PHP_EOL;
+			$html .= "Released: " . $record['released_formatted'] . "<br />" . PHP_EOL;
+			$html .= "Rating: " . $record['community']['rating']['average'] . " out of 5<br />" . PHP_EOL;
+			$html .= "Genre/Style: " . $genres_and_styles . "<br />" . PHP_EOL;
+
+			if ( $record['artists'] ) {
+				foreach ($record['artists'] as $artist) {
+					if ($artist['name']) {
+						$artist_name = str_replace(" (2)", "", $artist['name']);
+						$html .= "<p>Artists: " . $artist_name . "</p>" . PHP_EOL;
+					}
+				}
+			}
+
+			if ($record['tracklist']) {
+				$html .= "<p><strong>Traclist</strong><br />" . PHP_EOL;
+				foreach ( $record['tracklist'] as $track ) {
+					$html .= $track['title'] .  " - " . $track['duration'] . "<br />" . PHP_EOL;
+				}
+			}
+
+			if ($record['notes']) {
+				$notes = preg_replace('/\[url=(.+?)\](.+?)\[\/url\]/', '<a href="\1">\2</a>', $record['notes']);
+				$html .= "<div style='clear: both;'><p>Notes: " . $notes . "</p></div>" . PHP_EOL;
+			}
+
+			if ($record['videos']) {
+				$html .= "<p><strong>Videos</strong><br />" . PHP_EOL;
+				foreach ( $record['videos'] as $video ) {
+					$video_embed_url = str_replace('https://www.youtube.com/watch?v=', 'https://www.youtube.com/embed/', $video['uri']);
+					$html .= '<iframe width="740" height="370" src="' . $video_embed_url . '" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><br />' . PHP_EOL;
+				}
+			}
+
+
+
+			$html .= "</div>" . PHP_EOL;
+
 		}
 
 		return $html;
@@ -400,15 +409,19 @@ class CHB_WP_Discogs_Main {
 }
 
 /**
- * Grab the CHB_WP_Discogs Object and return it.
- * Wrapper for CHB_WP_Discogs::get_instance()
+ * Grab the CHB_WP_Discogs_RecordDetails Object and return it.
+ * Wrapper for CHB_WP_Discogs_RecordDetails::get_instance()
  *
  * @since  1.0.0
  * @return CHB_WP_Discogs Singleton instance of plugin class.
  */
-function chb_wp_discogs() {
-	return CHB_WP_Discogs_Main::get_instance();
+function chb_wp_discogs_record_details() {
+	return CHB_WP_Discogs_RecordDetails::get_instance();
 }
 
 // Kick it off
-chb_wp_discogs();
+
+$content = chb_wp_discogs_record_details()->getRecordDetails( $_REQUEST['record_id'] );
+
+echo $content;
+

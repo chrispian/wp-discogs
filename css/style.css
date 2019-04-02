@@ -14,3 +14,13 @@
 	margin-bottom: 10px;
 	text-align: center;
 }
+
+
+.discogs_card_modal {
+	width: 800px;
+	height: 1000px;
+	font-size: 0.7em;
+	padding: 6px;
+	background: #eeeeee;
+	text-align: center;
+}
